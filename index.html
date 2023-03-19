@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Trivia Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+     body {
+        background-image: url('https://static.vecteezy.com/system/resources/previews/000/098/341/original/free-question-mark-background-vector.jpg');
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+      
+     }
+
+
+     .navItem {
+        color: #052e64;
+        font-size: 1.2rem;
+        font-weight: bold;
+     }
+     #root{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.452);
+        height: 100vh;
+        
+     }
+
+     h2 {
+        color: #052e64;
+        text-shadow: 3px 3px white;
+        font-size: 4rem;
+        margin-bottom: 50px;
+        font-family: Permanent Marker;
+        cursor: pointer;
+        
+     }
+     h3 {
+        font-size: 3rem;
+        margin-bottom: 50px;
+        font-family: Permanent Marker;
+        color: rgb(78, 138, 228);
+        text-shadow: 3px 3px #052e64;
+
+     }
+
+     button {
+        background-color: rgb(78, 138, 228);
+        border-radius: 10px;
+        color: white; 
+        text-shadow: 1px 1px #333;
+        font-size: 1.75rem;
+        border: none;
+        outline: 1px solid #333;
+        font-family: Permanent Marker;
+     }
+
+     button:hover {
+        background-color:rgb(123, 168, 235);
+        color: #052e64;
+     }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand " href="#" style="font-weight: bold;">Random Trivia</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link navItem" aria-current="page" href="#/home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navItem" href="#/science">Science</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navItem" href="#/history">History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navItem" href="#/sports">Sports</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navItem" href="#/entertainment">Entertainment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+     <div id="root">
+
+      </div>
+
+
+      <script>
+        const routes = {
+            "" : "home.html",
+            "/": "home.html",
+            '#/home': 'home.html',
+            '#/science': 'science.html',
+            '#/history': 'history.html',
+            '#/sports': 'sports.html',
+            "#/entertainment": 'entertainment.html'
+        }
+window.addEventListener('hashchange', router)
+
+
+
+    async function router(){
+        console.log(location.hash)
+        let link = window.location.hash
+        let route = routes[link]
+
+        if (route){
+            loadpage(route)
+        }
+
+        if (location.hash === '#/sports'){
+            sportsQ();
+        }        
+        
+        if (location.hash === '#/science'){
+            scienceQ();
+        }
+        if (location.hash === '#/entertainment'){
+            entertainQ();
+        }
+        if (location.hash === '#/history'){
+            historyQ();
+        }
+
+
+    }
+
+    async function sportsQ(){
+        let data = await fetch("https://the-trivia-api.com/api/questions?categories=sport_and_leisure&limit=1&region=US")
+        let d1 = await data.json()
+        let stuff = d1[0].question
+        let answer = d1[0].correctAnswer
+        console.log(stuff)
+        console.log(answer)
+        let holder = document.getElementById('sportsQ')
+        holder.innerHTML = stuff
+        let showAnswer = document.getElementById('sportsQ').addEventListener('click', () => {
+            console.log(answer)
+            let aContainer = document.getElementById('sportsA')
+            aContainer.textContent = answer
+        })
+    }
+
+    async function entertainQ(){
+        let data = await fetch("https://the-trivia-api.com/api/questions?categories=music,film_and_tv&limit=1&region=US")
+        let d1 = await data.json()
+        let stuff = d1[0].question
+        let answer = d1[0].correctAnswer
+        console.log(stuff)
+        console.log(answer)
+        let holder = document.getElementById('entQ')
+        holder.innerHTML = stuff
+        let showAnswer = document.getElementById('entQ').addEventListener('click', () => {
+            console.log(answer)
+            let aContainer = document.getElementById('entA')
+            aContainer.textContent = answer
+        })
+    }
+
+    async function scienceQ(){
+        let data = await fetch("https://the-trivia-api.com/api/questions?categories=science&limit=1&region=US")
+        let d1 = await data.json()
+        let stuff = d1[0].question
+        let answer = d1[0].correctAnswer
+        console.log(stuff)
+        console.log(answer)
+        let holder = document.getElementById('scienceQ')
+        holder.innerHTML = stuff
+        let showAnswer = document.getElementById('scienceQ').addEventListener('click', () => {
+            console.log(answer)
+            let aContainer = document.getElementById('scienceA')
+            aContainer.textContent = answer
+        })
+    }
+
+    async function scienceQ(){
+        let data = await fetch("https://the-trivia-api.com/api/questions?categories=science&limit=1&region=US")
+        let d1 = await data.json()
+        let stuff = d1[0].question
+        let answer = d1[0].correctAnswer
+        console.log(stuff)
+        console.log(answer)
+        let holder = document.getElementById('scienceQ')
+        holder.innerHTML = stuff
+        let showAnswer = document.getElementById('scienceQ').addEventListener('click', () => {
+            console.log(answer)
+            let aContainer = document.getElementById('scienceA')
+            aContainer.textContent = answer
+        })
+    }
+
+    async function historyQ(){
+        let data = await fetch("https://the-trivia-api.com/api/questions?categories=history&limit=1&region=US")
+        let d1 = await data.json()
+        let stuff = d1[0].question
+        let answer = d1[0].correctAnswer
+        console.log(stuff)
+        console.log(answer)
+        let holder = document.getElementById('historyQ')
+        holder.innerHTML = stuff
+        let showAnswer = document.getElementById('historyQ').addEventListener('click', () => {
+            console.log(answer)
+            let aContainer = document.getElementById('historyA')
+            aContainer.textContent = answer
+        })
+    }
+router()
+    async function loadpage(url){
+        const data = await fetch(url)
+        const fill = await data.text()
+        const gameboard = document.getElementById('root')
+        gameboard.innerHTML = fill
+    }
+
+    
+      </script>
+</body>
+</html>
